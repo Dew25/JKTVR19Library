@@ -5,7 +5,10 @@
  */
 package jktvr19library;
 
+import entity.Reader;
+import entity.Book;
 import java.util.Scanner;
+
 
 /**
  *
@@ -37,12 +40,18 @@ public class App {
                     break;
                 case "1":
                     System.out.println("--- Добавить книгу ---");
+                    Book book = new Book("Voina i mir", "L.Tolstoy", 2010);
+                    System.out.println("Название книги: "+book.getName());
+                    System.out.println(book.toString());
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");
                     break;
                 case "3":
                     System.out.println("--- Добавить читателя ---");
+                    Reader reader = new Reader("Ivan", "Ivanov", "45545454");
+                    System.out.printf("Добавлен читатель: %s %s%n",reader.getFirstname(),reader.getLastname());
+                    System.out.println(reader.toString());
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
