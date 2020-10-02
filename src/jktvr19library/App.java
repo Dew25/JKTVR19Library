@@ -16,6 +16,7 @@ import java.util.Scanner;
  */
 public class App {
     private Scanner scanner = new Scanner(System.in);
+    private Reader[] readers = new Reader[10];
 
     public void run() {
         System.out.println("--- Библиотека ---");
@@ -50,11 +51,19 @@ public class App {
                 case "3":
                     System.out.println("--- Добавить читателя ---");
                     Reader reader = new Reader("Ivan", "Ivanov", "45545454");
-                    System.out.printf("Добавлен читатель: %s %s%n",reader.getFirstname(),reader.getLastname());
-                    System.out.println(reader.toString());
+                    readers[0] = reader;
+                    Reader reader1 = new Reader("Peter", "Petrov", "55545454");
+                    readers[1] = reader1;
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
+                    int i = 0;
+                    for (Reader r : readers) {
+                        if(r != null){
+                            System.out.println(i+1+". "+r.toString());
+                            i++;
+                        }
+                    }
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
