@@ -5,9 +5,12 @@
  */
 package jktvr19library;
 
+import tools.ReadersStorageManager;
+import tools.ReaderManager;
 import entity.Reader;
 import entity.Book;
 import java.util.Scanner;
+import static javafx.scene.input.KeyCode.R;
 
 
 /**
@@ -17,6 +20,11 @@ import java.util.Scanner;
 public class App {
     private Scanner scanner = new Scanner(System.in);
     private Reader[] readers = new Reader[10];
+
+    public App() {
+        ReadersStorageManager rsm = new ReadersStorageManager();
+        readers = rsm.loadReadersFromFile();
+    }
 
     public void run() {
         System.out.println("--- Библиотека ---");
@@ -50,10 +58,16 @@ public class App {
                     break;
                 case "3":
                     System.out.println("--- Добавить читателя ---");
-                    Reader reader = new Reader("Ivan", "Ivanov", "45545454");
-                    readers[0] = reader;
-                    Reader reader1 = new Reader("Peter", "Petrov", "55545454");
-                    readers[1] = reader1;
+                    ReaderManager readerManager = new ReaderManager(); 
+                    Reader reader = readerManager.addReader();
+                    for (int i = 0; i < readers.length; i++) {
+                        if(readers[i] == null){
+                            readers[i] = reader;
+                            break;
+                        }
+                    }
+                    ReadersStorageManager readersStorageManager = new ReadersStorageManager();
+                    readersStorageManager.saveReadersToFile(readers);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
