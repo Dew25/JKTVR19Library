@@ -10,7 +10,8 @@ import tools.ReaderManager;
 import entity.Reader;
 import entity.Book;
 import java.util.Scanner;
-import static javafx.scene.input.KeyCode.R;
+import tools.BookManager;
+import tools.BooksStorageManager;
 
 
 /**
@@ -20,10 +21,19 @@ import static javafx.scene.input.KeyCode.R;
 public class App {
     private Scanner scanner = new Scanner(System.in);
     private Reader[] readers = new Reader[10];
+    private Book[] books = new Book[10];
 
     public App() {
         ReadersStorageManager rsm = new ReadersStorageManager();
-        readers = rsm.loadReadersFromFile();
+        Reader[] loadedReaders = rsm.loadReadersFromFile();
+        if(loadedReaders != null){
+            readers = loadedReaders;
+        }
+        BooksStorageManager bsm = new BooksStorageManager();
+        Book[] loadedBooks = bsm.loadBooksFromFile();
+        if(loadedBooks != null){
+            books = loadedBooks;
+        }
     }
 
     public void run() {
@@ -49,12 +59,26 @@ public class App {
                     break;
                 case "1":
                     System.out.println("--- Добавить книгу ---");
-                    Book book = new Book("Voina i mir", "L.Tolstoy", 2010);
-                    System.out.println("Название книги: "+book.getName());
-                    System.out.println(book.toString());
+                    BookManager bookManager = new BookManager(); 
+                    Book book = bookManager.addBook();
+                    for (int i = 0; i < books.length; i++) {
+                        if(books[i] == null){
+                            books[i] = book;
+                            break;
+                        }
+                    }
+                    BooksStorageManager booksStorageManager = new BooksStorageManager();
+                    booksStorageManager.saveBooksToFile(books);
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");
+                    int j = 0;
+                    for (Book b : books) {
+                        if(b != null){
+                            System.out.println(j+1+". "+b.toString());
+                            j++;
+                        }
+                    }
                     break;
                 case "3":
                     System.out.println("--- Добавить читателя ---");
