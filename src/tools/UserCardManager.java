@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class UserCardManager {
 
     public History giveBook(Book[] books, Reader[] readers) {
-        History history = null;
+        History history = new History();
         System.out.println("--- Список читателей ---");
         int n = 0;
         for (Reader r : readers) {
@@ -28,18 +28,19 @@ public class UserCardManager {
                 n++;
             }
         }
-         System.out.print("Выберите номер читателя: ");    
-         Scanner scanner = new Scanner(System.in);
-         int readerNumber = scanner.nextInt();
-         Reader reader = readers[readerNumber - 1];
-         System.out.println("--- Список книг ---");
-                    int j = 0;
-                    for (Book b : books) {
-                        if(b != null){
-                            System.out.println(j+1+". "+b.toString());
-                            j++;
-                        }
-                    }
+        System.out.print("Выберите номер читателя: ");    
+        Scanner scanner = new Scanner(System.in);
+        int readerNumber = scanner.nextInt();
+        scanner.nextLine();
+        Reader reader = readers[readerNumber - 1];
+        System.out.println("--- Список книг ---");
+        n = 0;
+        for (Book b : books) {
+            if(b != null){
+                System.out.println(n+1+". "+b.toString());
+                n++;
+            }
+        }
          System.out.print("Выберите номер книги: ");    
          int bookNumber = scanner.nextInt();
          Book book = books[bookNumber - 1];

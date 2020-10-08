@@ -52,6 +52,7 @@ public class App {
             System.out.println("4. Список читателей");
             System.out.println("5. Выдать книгу");
             System.out.println("6. Вернуть книгу");
+            System.out.println("7. Список читаемых книг");
             System.out.print("Выберите задачу: ");
             String task = scanner.nextLine();
             System.out.println("=============================");
@@ -119,6 +120,16 @@ public class App {
                     break;
                 case "6":
                     System.out.println("--- Вернуть книгу ---");
+                    break;
+                case "7":  
+                    System.out.println("--- Список читаемых книг ---");
+                    n = 0;
+                    for (History h : histories) {
+                        if(h != null && h.getReturnDate() == null){
+                            System.out.println(n+1+". "+h.toString());
+                            n++;
+                        }
+                    }
                     break;
                 default:
                     System.out.println("Нет такой задачи");;
