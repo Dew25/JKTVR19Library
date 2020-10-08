@@ -9,9 +9,11 @@ import tools.ReadersStorageManager;
 import tools.ReaderManager;
 import entity.Reader;
 import entity.Book;
+import entity.History;
 import java.util.Scanner;
 import tools.BookManager;
 import tools.BooksStorageManager;
+import tools.UserCardManager;
 
 
 /**
@@ -22,6 +24,7 @@ public class App {
     private Scanner scanner = new Scanner(System.in);
     private Reader[] readers = new Reader[10];
     private Book[] books = new Book[10];
+    private History[] histories = new History[10];
 
     public App() {
         ReadersStorageManager rsm = new ReadersStorageManager();
@@ -95,16 +98,24 @@ public class App {
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
-                    int i = 0;
+                    int n = 0;
                     for (Reader r : readers) {
                         if(r != null){
-                            System.out.println(i+1+". "+r.toString());
-                            i++;
+                            System.out.println(n+1+". "+r.toString());
+                            n++;
                         }
                     }
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
+                    UserCardManager userCardManager = new UserCardManager();
+                    History history = userCardManager.giveBook(books, readers);
+                    for (int i = 0; i < histories.length; i++) {
+                        if(histories[i] == null){
+                            histories[i] = history;
+                            break;
+                        }
+                    }
                     break;
                 case "6":
                     System.out.println("--- Вернуть книгу ---");
