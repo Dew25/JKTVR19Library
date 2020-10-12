@@ -24,6 +24,10 @@ public class ReaderManager {
         reader.setLastname(scanner.nextLine());
         System.out.println("Введите телефон:");
         reader.setPhone(scanner.nextLine());
+        System.out.println("Введите логин:");
+        reader.setLogin(scanner.nextLine());
+        System.out.println("Введите пароль:");
+        reader.setPassword(scanner.nextLine());
         
         return reader;
     }

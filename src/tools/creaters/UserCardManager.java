@@ -19,22 +19,13 @@ import java.util.Scanner;
 public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
 
-    public History giveBook(Book[] books, Reader[] readers) {
+    public History giveBook(Book[] books, Reader user) {
 //        History history = new History();
-        System.out.println("--- Список читателей ---");
-        int n = 0;
-        for (Reader r : readers) {
-            if(r != null){
-                System.out.println(n+1+". "+r.toString());
-                n++;
-            }
-        }
-        System.out.print("Выберите номер читателя: ");    
-        int readerNumber = scanner.nextInt();
-        scanner.nextLine();
-        Reader reader = readers[readerNumber - 1];
+        
+        Reader reader = user;
+        
         System.out.println("--- Список книг ---");
-        n = 0;
+        int n = 0;
         for (Book b : books) {
             if(b != null){
                 System.out.println(n+1+". "+b.toString());
@@ -50,6 +41,7 @@ public class UserCardManager {
 //         history.setTakeOnDate(calendar.getTime());
 //         History history = new History(book, reader, calendar.getTime(), null);
 //         return history; 
+    
         return new History(book, reader, calendar.getTime(), null);
     }
 

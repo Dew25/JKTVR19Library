@@ -16,6 +16,7 @@ import tools.creaters.BookManager;
 import tools.savers.BooksStorageManager;
 import tools.savers.HistoriesStorageManager;
 import tools.creaters.UserCardManager;
+import tools.login.LoginManager;
 
 
 /**
@@ -27,6 +28,7 @@ public class App {
     private Reader[] readers = new Reader[10];
     private Book[] books = new Book[10];
     private History[] histories = new History[10];
+    Reader user = new Reader();
 
     public App() {
         ReadersStorageManager rsm = new ReadersStorageManager();
@@ -47,7 +49,28 @@ public class App {
     }
 
     public void run() {
+        
         System.out.println("--- Библиотека ---");
+        LoginManager loginManager = new LoginManager();
+        Reader logUser = loginManager.login(readers);
+        if(logUser == null){
+            System.out.println("--- Добавить читателя ---");
+            ReaderManager readerManager = new ReaderManager(); 
+            Reader reader = readerManager.addReader();
+            for (int i = 0; i < readers.length; i++) {
+                if(readers[i] == null){
+                    readers[i] = reader;
+                    break;
+                }
+            }
+            ReadersStorageManager readersStorageManager = new ReadersStorageManager();
+            readersStorageManager.saveReadersToFile(readers);
+            System.out.println("---------------------");
+            do{
+                logUser = loginManager.login(readers);
+            }while(logUser== null);
+        }
+        this.user = logUser;
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -117,7 +140,7 @@ public class App {
                 case "5":
                     System.out.println("--- Выдать книгу ---");
                     UserCardManager userCardManager = new UserCardManager();
-                    History history = userCardManager.giveBook(books, readers);
+                    History history = userCardManager.giveBook(books, this.user);
                     for (int i = 0; i < histories.length; i++) {
                         if(histories[i] == null){
                             histories[i] = history;

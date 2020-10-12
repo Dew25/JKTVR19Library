@@ -15,6 +15,8 @@ public class Reader implements Serializable{
     private String firstname;
     private String lastname;
     private String phone;
+    private String login;
+    private String password;
 
     public Reader() {
     }
@@ -56,6 +58,22 @@ public class Reader implements Serializable{
                 + ", lastname=" + lastname 
                 + ", phone=" + phone 
                 + '}';
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
 }
