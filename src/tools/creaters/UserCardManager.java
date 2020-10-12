@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package tools.creaters;
 
 import entity.Book;
 import entity.History;
@@ -17,6 +17,7 @@ import java.util.Scanner;
  * @author Melnikov
  */
 public class UserCardManager {
+    private Scanner scanner = new Scanner(System.in);
 
     public History giveBook(Book[] books, Reader[] readers) {
 //        History history = new History();
@@ -29,7 +30,6 @@ public class UserCardManager {
             }
         }
         System.out.print("Выберите номер читателя: ");    
-        Scanner scanner = new Scanner(System.in);
         int readerNumber = scanner.nextInt();
         scanner.nextLine();
         Reader reader = readers[readerNumber - 1];
@@ -51,6 +51,30 @@ public class UserCardManager {
 //         History history = new History(book, reader, calendar.getTime(), null);
 //         return history; 
         return new History(book, reader, calendar.getTime(), null);
+    }
+
+    public void returnBook(History[] histories) {
+        System.out.println("Читаемые книги:");
+        boolean notReadBooks = true;
+        for (int i = 0;i<histories.length;i++) {
+            if(histories[i] != null && histories[i].getReturnDate() == null){
+                System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
+                        ,i+1
+                        ,histories[i].getBook().getName()
+                        ,histories[i].getReader().getFirstname()
+                        ,histories[i].getReader().getLastname()
+                );
+                notReadBooks = false;
+            }
+        }
+        if(notReadBooks){
+            System.out.println("Читаемых книг нет");
+            return;
+        }
+        System.out.println("Выберите номер возвращаемой книги: ");
+        int historyNumber = scanner.nextInt();
+        histories[historyNumber - 1].setReturnDate(new GregorianCalendar().getTime());
+                    
     }
 
    

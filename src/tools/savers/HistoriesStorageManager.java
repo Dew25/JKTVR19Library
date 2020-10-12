@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package tools.savers;
 
 import entity.History;
 import java.io.FileInputStream;

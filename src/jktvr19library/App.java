@@ -5,17 +5,17 @@
  */
 package jktvr19library;
 
-import tools.ReadersStorageManager;
-import tools.ReaderManager;
+import tools.savers.ReadersStorageManager;
+import tools.creaters.ReaderManager;
 import entity.Reader;
 import entity.Book;
 import entity.History;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-import tools.BookManager;
-import tools.BooksStorageManager;
-import tools.HistoriesStorageManager;
-import tools.UserCardManager;
+import tools.creaters.BookManager;
+import tools.savers.BooksStorageManager;
+import tools.savers.HistoriesStorageManager;
+import tools.creaters.UserCardManager;
 
 
 /**
@@ -129,34 +129,8 @@ public class App {
                     break;
                 case "6":
                     System.out.println("--- Вернуть книгу ---");
-                    
-                    System.out.println("Читаемые книги:");
-                    boolean notReadBooks = true;
-                    for (int i = 0;i<histories.length;i++) {
-                        if(histories[i] != null && histories[i].getReturnDate() == null){
-                            System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
-                                    ,i+1
-                                    ,histories[i].getBook().getName()
-                                    ,histories[i].getReader().getFirstname()
-                                    ,histories[i].getReader().getLastname()
-                            );
-//                            System.out.println(n+1+". Книгу \""
-//                                    +h.getBook().getName()
-//                                    +"\" читает "
-//                                    +h.getReader().getFirstname() 
-//                                    + " "
-//                                    +h.getReader().getLastname()
-//                            );
-                            notReadBooks = false;
-                        }
-                    }
-                    if(notReadBooks){
-                        System.out.println("Читаемых книг нет");
-                        break;
-                    }
-                    System.out.println("Выберите номер возвращаемой книги: ");
-                    int historyNumber = scanner.nextInt();
-                    histories[historyNumber - 1].setReturnDate(new GregorianCalendar().getTime());
+                    userCardManager = new UserCardManager();
+                    userCardManager.returnBook(histories);
                     historiesStorageManager = new HistoriesStorageManager();
                     historiesStorageManager.saveHistoriesToFile(histories);
                     break;

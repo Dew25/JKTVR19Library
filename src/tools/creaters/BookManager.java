@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package tools.creaters;
 
 import entity.Book;
-import entity.Reader;
 import java.util.Scanner;
 
 /**
