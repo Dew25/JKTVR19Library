@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class ReaderManager {
 
-    public Reader addReader() {
+    public Reader createReader() {
         Reader reader = new Reader();
         System.out.println("--- Зарегистрировать читателя ---");
         System.out.println("Введите имя:");
@@ -24,12 +24,26 @@ public class ReaderManager {
         reader.setLastname(scanner.nextLine());
         System.out.println("Введите телефон:");
         reader.setPhone(scanner.nextLine());
-        System.out.println("Введите логин:");
-        reader.setLogin(scanner.nextLine());
-        System.out.println("Введите пароль:");
-        reader.setPassword(scanner.nextLine());
-        
         return reader;
+    }
+
+    public void addReaderToArray(Reader reader, Reader[] readers) {
+        for (int i = 0; i < readers.length; i++) {
+            if(readers[i] == null){
+                readers[i] = reader;
+                break;
+            }
+        } 
+    }
+
+    public void printListReaders(Reader[] readers) {
+        int n = 0;
+        for (Reader r : readers) {
+            if(r != null){
+                System.out.println(n+1+". "+r.toString());
+                n++;
+            }
+        }
     }
     
 }

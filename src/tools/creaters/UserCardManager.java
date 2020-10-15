@@ -18,35 +18,66 @@ import java.util.Scanner;
  */
 public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
+    private BookManager bookManager = new BookManager();
+    private ReaderManager readerManager = new ReaderManager();
 
-    public History giveBook(Book[] books, Reader user) {
-//        History history = new History();
-        
-        Reader reader = user;
-        
+    public History checkOutBook(Book[] books, Reader[] readers) {
         System.out.println("--- Список книг ---");
-        int n = 0;
-        for (Book b : books) {
-            if(b != null){
-                System.out.println(n+1+". "+b.toString());
-                n++;
+        int bookNumber;
+        do{
+            bookManager.printListBooks(books);
+            System.out.print("Выберите номер книги: ");    
+            String bookNumberStr = scanner.nextLine();
+            try {
+                bookNumber = Integer.parseInt(bookNumberStr);
+                if(bookNumber < 1 && bookNumber >= books.length){
+                    throw new Exception();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Выберите номер из указанного выше списка книг");
             }
-        }
-         System.out.print("Выберите номер книги: ");    
-         int bookNumber = scanner.nextInt();
-         Book book = books[bookNumber - 1];
-         Calendar calendar = new GregorianCalendar();
-//         history.setBook(book);
-//         history.setReader(reader);
-//         history.setTakeOnDate(calendar.getTime());
-//         History history = new History(book, reader, calendar.getTime(), null);
-//         return history; 
-    
+        }while(true);
+        Book book = books[bookNumber - 1];
+        int readerNumber;
+        do{
+            System.out.println("--- Список читателей ---");
+            readerManager.printListReaders(readers);
+            System.out.print("Выберите номер читателя: ");    
+            String readerNumberStr = scanner.nextLine();
+            try {
+                readerNumber = Integer.parseInt(readerNumberStr);
+                if(readerNumber < 1 && readerNumber >= readers.length){
+                    throw new Exception();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Выберите номер из указанного списка");
+            }
+        }while(true);
+        Reader reader = readers[readerNumber - 1];
+        Calendar calendar = new GregorianCalendar();
         return new History(book, reader, calendar.getTime(), null);
     }
 
     public void returnBook(History[] histories) {
         System.out.println("Читаемые книги:");
+        this.printListReadBooks(histories);
+        System.out.println("Выберите номер возвращаемой книги: ");
+        int historyNumber = scanner.nextInt();
+        histories[historyNumber - 1].setReturnDate(new GregorianCalendar().getTime());
+    }
+
+    public void addHistoryToArray(History history, History[] histories) {
+        for (int i = 0; i < histories.length; i++) {
+            if(histories[i] == null){
+                histories[i] = history;
+                break;
+            }
+        } 
+    }
+
+    public void printListReadBooks(History[] histories) {
         boolean notReadBooks = true;
         for (int i = 0;i<histories.length;i++) {
             if(histories[i] != null && histories[i].getReturnDate() == null){
@@ -61,14 +92,6 @@ public class UserCardManager {
         }
         if(notReadBooks){
             System.out.println("Читаемых книг нет");
-            return;
         }
-        System.out.println("Выберите номер возвращаемой книги: ");
-        int historyNumber = scanner.nextInt();
-        histories[historyNumber - 1].setReturnDate(new GregorianCalendar().getTime());
-                    
     }
-
-   
-    
 }

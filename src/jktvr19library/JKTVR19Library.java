@@ -5,9 +5,6 @@
  */
 package jktvr19library;
 
-import entity.Reader;
-import tools.login.LoginManager;
-
 /**
  *
  * @author Melnikov
