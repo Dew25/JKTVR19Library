@@ -12,6 +12,7 @@ import entity.Book;
 import entity.History;
 import entity.User;
 import java.util.Scanner;
+import security.SecureManager;
 import tools.creaters.BookManager;
 import tools.savers.BooksStorageManager;
 import tools.savers.HistoriesStorageManager;
@@ -28,6 +29,7 @@ public class App {
     private Reader[] readers = new Reader[10];
     private Book[] books = new Book[10];
     private History[] histories = new History[10];
+    private User[] users = new User[10];
 
     private BookManager bookManager = new BookManager(); 
     private ReaderManager readerManager = new ReaderManager(); 
@@ -56,7 +58,8 @@ public class App {
 
     public void run() {
         System.out.println("--- Библиотека ---");
-                
+        SecureManager secureManager = new SecureManager();
+        this.loggedInUser = secureManager.checkInLogin(users,readers);
         boolean repeat = true;
         do{
             System.out.println("=============================");

@@ -5,11 +5,13 @@
  */
 package entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Melnikov
  */
-public class User {
+public class User implements Serializable{
     private String login;
     private String password;
     private String role;
