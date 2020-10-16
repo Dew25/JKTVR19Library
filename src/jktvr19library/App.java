@@ -17,6 +17,7 @@ import tools.creaters.BookManager;
 import tools.savers.BooksStorageManager;
 import tools.savers.HistoriesStorageManager;
 import tools.creaters.UserCardManager;
+import tools.savers.UsersStorageManager;
 
 
 /**
@@ -38,6 +39,7 @@ public class App {
     private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
     private BooksStorageManager booksStorageManager = new BooksStorageManager();
     private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
+    private UsersStorageManager usersStorageManager = new UsersStorageManager();
     
     private User loggedInUser;
 
@@ -53,6 +55,10 @@ public class App {
         History[] loaderHistories = historiesStorageManager.loadHistoriesFromFile();
         if(loaderHistories != null){
             histories = loaderHistories;
+        }
+        User[] loaderUser = usersStorageManager.loadUsersFromFile();
+        if(loaderUser != null){
+            users = loaderUser;
         }
     }
 

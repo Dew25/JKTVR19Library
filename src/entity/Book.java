@@ -57,7 +57,7 @@ public class Book implements Serializable{
         try {
             int publishedYearInt = Integer.parseInt(publishedYear);
             this.publishedYear = publishedYearInt;
-            
+            System.out.println("Строка "+publishedYear+" успешно преобразована в число.");
         } catch (Exception e) {
             System.out.println("Введены не цифры. Поле не изменено");
         }
