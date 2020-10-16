@@ -10,6 +10,7 @@ import tools.creaters.ReaderManager;
 import entity.Reader;
 import entity.Book;
 import entity.History;
+import entity.User;
 import java.util.Scanner;
 import tools.creaters.BookManager;
 import tools.savers.BooksStorageManager;
@@ -23,16 +24,20 @@ import tools.creaters.UserCardManager;
  */
 public class App {
     private Scanner scanner = new Scanner(System.in);
+    
     private Reader[] readers = new Reader[10];
     private Book[] books = new Book[10];
     private History[] histories = new History[10];
+
     private BookManager bookManager = new BookManager(); 
     private ReaderManager readerManager = new ReaderManager(); 
     private UserCardManager userCardManager = new UserCardManager();
+    
     private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
     private BooksStorageManager booksStorageManager = new BooksStorageManager();
     private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
     
+    private User loggedInUser;
 
     public App() {
         Reader[] loadedReaders = readersStorageManager.loadReadersFromFile();
