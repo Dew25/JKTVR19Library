@@ -8,12 +8,14 @@ package tools.creaters;
 import entity.Reader;
 import java.util.Scanner;
 
+import tools.savers.ReadersStorageManager;
+
 /**
  *
  * @author Melnikov
  */
 public class ReaderManager {
-
+private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
     public Reader createReader() {
         Reader reader = new Reader();
         System.out.println("--- Зарегистрировать читателя ---");
@@ -34,6 +36,7 @@ public class ReaderManager {
                 break;
             }
         } 
+        readersStorageManager.saveReadersToFile(readers);
     }
 
     public void printListReaders(Reader[] readers) {

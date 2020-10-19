@@ -59,7 +59,7 @@ public class UserManager {
         String password = scanner.nextLine();
         for (int i = 0; i < users.length; i++) {
             if(users[i] != null && users[i].getLogin().equals(login)){
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 2; j++) {
                    if(users[i].getPassword().equals(password)){
                        return users[i];
                    }else{
@@ -67,10 +67,11 @@ public class UserManager {
                        password = scanner.nextLine();
                    }
                 }
-                System.out.println("Давай досвидания! :)");
+                System.out.println("У вас нет права входа.");
                 return null;
             }
         }
+        System.out.println("У вас нет права входа. Зарегистрируйтесь.");
         return null;
     }
     

@@ -37,7 +37,6 @@ public class UsersStorageManager {
         }
     }
     public User[] loadUsersFromFile() {
-        //Book[] books = new book[10];
         User[] users = null;
         FileInputStream fis = null;
         ObjectInputStream ois = null;

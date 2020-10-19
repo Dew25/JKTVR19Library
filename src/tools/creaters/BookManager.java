@@ -36,7 +36,11 @@ public class BookManager {
         }    
     }
 
-    public void printListBooks(Book[] books) {
+    public boolean printListBooks(Book[] books) {
+        if(books == null || books.length < 1){
+            System.out.println("Книг нет!");
+            return false;
+        }
         int j = 0;
         for (Book b : books) {
             if(b != null){
@@ -44,6 +48,7 @@ public class BookManager {
                 j++;
             }
         }
+        return true;
     }
     
 }
