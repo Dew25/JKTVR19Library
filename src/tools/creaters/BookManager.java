@@ -22,8 +22,18 @@ public class BookManager {
         book.setName(scanner.nextLine());
         System.out.println("Введите автора:");
         book.setAuthor(scanner.nextLine());
-        System.out.println("Введите год издания:");
-        book.setPublishedYear(scanner.nextInt());
+        int numPublishedYear;
+        do{
+            System.out.println("Введите год издания:");
+            String strPublichedYear = scanner.nextLine();
+            try {
+                numPublishedYear = Integer.parseInt(strPublichedYear);
+                break;
+            } catch (Exception e) {
+                System.out.println("Вводите цифры!");
+            }
+        }while(true);
+        book.setPublishedYear(numPublishedYear);
         return book;
     }
 
