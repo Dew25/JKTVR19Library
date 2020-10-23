@@ -10,8 +10,10 @@ import entity.History;
 import entity.Reader;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
+import security.SecureManager;
 import tools.savers.HistoriesStorageManager;
 
 /**
@@ -24,18 +26,18 @@ public class UserCardManager {
     private ReaderManager readerManager = new ReaderManager();
     private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
 
-    public void checkOutBook(Book[] books, Reader[] readers, History[] histories) {
+    public void checkOutBook(List<Book> listBooks, List<Reader> listReaders,List<History> listHistories) {
         System.out.println("--- Список книг ---");
         int bookNumber;
         do{
-            if(!bookManager.printListBooks(books)){
+            if(!bookManager.printListBooks(listBooks)){
                 return;
             };
             System.out.print("Выберите номер книги: ");    
             String bookNumberStr = scanner.nextLine();
             try {
                 bookNumber = Integer.parseInt(bookNumberStr);
-                if(bookNumber < 1 && bookNumber >= books.length){
+                if(bookNumber < 1 && bookNumber >= listBooks.size()){
                     throw new Exception("Выход за диапазон массива книг");
                 }
                 break;
@@ -43,18 +45,18 @@ public class UserCardManager {
                 System.out.println("Выберите номер из указанного выше списка книг");
             }
         }while(true);
-        Book book = books[bookNumber - 1];
+        Book book = listBooks.get(bookNumber - 1);
         Reader reader = null;
-        if("MANAGER".equals(App.loggedInUser.getRole())){
+        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
             int readerNumber;
             do{
                 System.out.println("--- Список читателей ---");
-                readerManager.printListReaders(readers);
+                readerManager.printListReaders(listReaders);
                 System.out.print("Выберите номер читателя: ");    
                 String readerNumberStr = scanner.nextLine();
                 try {
                     readerNumber = Integer.parseInt(readerNumberStr);
-                    if(readerNumber < 1 && readerNumber >= readers.length){
+                    if(readerNumber < 1 && readerNumber >= listReaders.size()){
                         throw new Exception();
                     }
                     break;
@@ -62,26 +64,26 @@ public class UserCardManager {
                     System.out.println("Выберите номер из указанного списка");
                 }
             }while(true);
-            reader = readers[readerNumber - 1];
-        }else if("READER".equals(App.loggedInUser.getRole())){
+            reader = listReaders.get(readerNumber - 1);
+        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
             reader = App.loggedInUser.getReader();
         }
         Calendar calendar = new GregorianCalendar();
         History history = new History(book, reader, calendar.getTime(), null);
-        this.addHistoryToArray(history, histories);
+        this.addHistoryToArray(history, listHistories);
        
     }
 
-    public void returnBook(History[] histories) {
+    public void returnBook(List<History> listHistories) {
         System.out.println("Читаемые книги:");
-        if(this.printListReadBooks(histories)){
+        if(this.printListReadBooks(listHistories)){
             int historyNumber;
             do{    
                System.out.println("Выберите номер возвращаемой книги: ");
                 String historyNumberStr = scanner.nextLine();
                 try {
                     historyNumber = Integer.parseInt(historyNumberStr);
-                    if(historyNumber < 1 && historyNumber >= histories.length){
+                    if(historyNumber < 1 && historyNumber >= listHistories.size()){
                         throw new Exception("Выход за диапазон массива");
                     }
                     break;
@@ -89,31 +91,26 @@ public class UserCardManager {
                     System.out.println("Выберите номер из указанного выше списка");
                 }
             }while(true);
-            histories[historyNumber - 1].setReturnDate(new GregorianCalendar().getTime());
-            historiesStorageManager.saveHistoriesToFile(histories);
+            listHistories.get(historyNumber - 1).setReturnDate(new GregorianCalendar().getTime());
+            historiesStorageManager.saveHistoriesToFile(listHistories);
         }
     }
 
-    public void addHistoryToArray(History history, History[] histories) {
-        for (int i = 0; i < histories.length; i++) {
-            if(histories[i] == null){
-                histories[i] = history;
-                break;
-            }
-        }
-        historiesStorageManager.saveHistoriesToFile(histories);
+    public void addHistoryToArray(History history, List<History> listHistories) {
+        listHistories.add(history);
+        historiesStorageManager.saveHistoriesToFile(listHistories);
     }
 
-    public boolean printListReadBooks(History[] histories) {
+    public boolean printListReadBooks(List<History> listHistories) {
         boolean notReadBooks = true;
-        if("MANAGER".equals(App.loggedInUser.getRole())){
-                for (int i = 0;i<histories.length;i++) {
-                    if(histories[i] != null && histories[i].getReturnDate() == null){
+        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
+                for (int i = 0;i<listHistories.size();i++) {
+                    if(listHistories.get(i) != null && listHistories.get(i).getReturnDate() == null){
                         System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
                                 ,i+1
-                                ,histories[i].getBook().getName()
-                                ,histories[i].getReader().getFirstname()
-                                ,histories[i].getReader().getLastname()
+                                ,listHistories.get(i).getBook().getName()
+                                ,listHistories.get(i).getReader().getFirstname()
+                                ,listHistories.get(i).getReader().getLastname()
                         );
                         notReadBooks = false;
                     }
@@ -124,16 +121,16 @@ public class UserCardManager {
                 }
             
             
-        }else if("READER".equals(App.loggedInUser.getRole())){
-                for (int i = 0;i<histories.length;i++) {
-                    if(histories[i] != null 
-                         && histories[i].getReturnDate() == null
-                            && histories[i].getReader().equals(App.loggedInUser.getReader())){
+        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
+                for (int i = 0;i<listHistories.size();i++) {
+                    if(listHistories.get(i) != null 
+                         && listHistories.get(i).getReturnDate() == null
+                            && listHistories.get(i).getReader().equals(App.loggedInUser.getReader())){
                         System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
                                 ,i+1
-                                ,histories[i].getBook().getName()
-                                ,histories[i].getReader().getFirstname()
-                                ,histories[i].getReader().getLastname()
+                                ,listHistories.get(i).getBook().getName()
+                                ,listHistories.get(i).getReader().getFirstname()
+                                ,listHistories.get(i).getReader().getLastname()
                         );
                         notReadBooks = false;
                     }

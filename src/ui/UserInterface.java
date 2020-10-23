@@ -9,6 +9,7 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import entity.User;
+import java.util.List;
 import java.util.Scanner;
 import tools.creaters.BookManager;
 import tools.creaters.ReaderManager;
@@ -32,7 +33,7 @@ public class UserInterface {
     private BooksStorageManager booksStorageManager = new BooksStorageManager();
     private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
     private UsersStorageManager usersStorageManager = new UsersStorageManager();
-    public void printManagerUI(User[] users, Reader[] readers, Book[] books, History[] histories){
+    public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -56,39 +57,39 @@ public class UserInterface {
                 case "1":
                     System.out.println("--- Добавить книгу ---");
                     Book book = bookManager.createBook();
-                    bookManager.addBookToArray(book,books);
+                    bookManager.addBookToArray(book,listBooks);
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");
-                    bookManager.printListBooks(books);
+                    bookManager.printListBooks(listBooks);
                     break;
                 case "3":
                     System.out.println("--- Добавить читателя ---");
                     Reader reader = readerManager.createReader();
-                    readerManager.addReaderToArray(reader,readers);
+                    readerManager.addReaderToArray(reader,listReaders);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
-                    readerManager.printListReaders(readers);
+                    readerManager.printListReaders(listReaders);
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
-                    userCardManager.checkOutBook(books, readers, histories);
+                    userCardManager.checkOutBook(listBooks, listReaders, listHistories);
                     break;
                 case "6":
                     System.out.println("--- Вернуть книгу ---");
-                    userCardManager.returnBook(histories);
+                    userCardManager.returnBook(listHistories);
                     break;
                 case "7":  
                     System.out.println("--- Список читаемых книг ---");
-                    userCardManager.printListReadBooks(histories);
+                    userCardManager.printListReadBooks(listHistories);
                     break;
                 default:
                     System.out.println("Нет такой задачи");;
             }
         }while(repeat);
     }
-    public void printReaderUI(User[] users, Reader[] readers, Book[] books, History[] histories){
+    public void printReaderUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -108,19 +109,19 @@ public class UserInterface {
                     break;
                 case "1":
                     System.out.println("--- Список книг ---");
-                    bookManager.printListBooks(books);
+                    bookManager.printListBooks(listBooks);
                     break;
                 case "2":
                     System.out.println("--- Взять книгу ---");
-                    userCardManager.checkOutBook(books, readers, histories);
+                    userCardManager.checkOutBook(listBooks, listReaders, listHistories);
                     break;
                 case "3":
                     System.out.println("--- Вернуть книгу ---");
-                    userCardManager.returnBook(histories);
+                    userCardManager.returnBook(listHistories);
                     break;
                 case "4":  
                     System.out.println("--- Список читаемых книг ---");
-                    userCardManager.printListReadBooks(histories);
+                    userCardManager.printListReadBooks(listHistories);
                     break;
                 default:
                     System.out.println("Нет такой задачи");;

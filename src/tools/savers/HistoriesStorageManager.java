@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 
 /**
@@ -20,14 +21,14 @@ import java.io.ObjectOutputStream;
  */
 public class HistoriesStorageManager {
 
-    public void saveHistoriesToFile(History[] histories) {
+    public void saveHistoriesToFile(List<History> listHistories) {
         String fileName = "histories";
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(histories);
+            oos.writeObject(listHistories);
             oos.flush();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла");
@@ -35,16 +36,15 @@ public class HistoriesStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public History[] loadHistoriesFromFile() {
-        //Book[] books = new book[10];
-        History[] histories = null;
+    public List<History> loadHistoriesFromFile() {
+        List<History> listHistories = null;
         String fileName = "histories";
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (History[]) ois.readObject();
+            return (List<History>) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла"); 
         } catch (IOException ex){
@@ -52,7 +52,7 @@ public class HistoriesStorageManager {
         } catch (ClassNotFoundException ex) {
             System.out.println("Нет такого класса");
         }
-        return histories;
+        return listHistories;
     }
     
 }

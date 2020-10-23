@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 
 /**
@@ -35,16 +36,15 @@ public class BooksStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public Book[] loadBooksFromFile() {
-        //Book[] books = new book[10];
-        Book[] books = null;
+    public List<Book> loadBooksFromFile() {
+        List<Book> listBooks = null;
         String fileName = "books";
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (Book[]) ois.readObject();
+            return (List<Book>) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла"); 
         } catch (IOException ex){
@@ -52,7 +52,7 @@ public class BooksStorageManager {
         } catch (ClassNotFoundException ex) {
             System.out.println("Нет такого класса");
         }
-        return books;
+        return listBooks;
     }
     
 }

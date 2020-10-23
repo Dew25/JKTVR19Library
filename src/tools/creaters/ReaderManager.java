@@ -6,6 +6,7 @@
 package tools.creaters;
 
 import entity.Reader;
+import java.util.List;
 import java.util.Scanner;
 
 import tools.savers.ReadersStorageManager;
@@ -29,19 +30,14 @@ private ReadersStorageManager readersStorageManager = new ReadersStorageManager(
         return reader;
     }
 
-    public void addReaderToArray(Reader reader, Reader[] readers) {
-        for (int i = 0; i < readers.length; i++) {
-            if(readers[i] == null){
-                readers[i] = reader;
-                break;
-            }
-        } 
-        readersStorageManager.saveReadersToFile(readers);
+    public void addReaderToArray(Reader reader, List<Reader> listReaders) {
+        listReaders.add(reader);
+        readersStorageManager.saveReadersToFile(listReaders);
     }
 
-    public void printListReaders(Reader[] readers) {
+    public void printListReaders(List<Reader> listReaders) {
         int n = 0;
-        for (Reader r : readers) {
+        for (Reader r : listReaders) {
             if(r != null){
                 System.out.println(n+1+". "+r.toString());
                 n++;

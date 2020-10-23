@@ -6,6 +6,7 @@
 package tools.creaters;
 
 import entity.Book;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -37,22 +38,17 @@ public class BookManager {
         return book;
     }
 
-    public void addBookToArray(Book book, Book[] books) {
-        for (int i = 0; i < books.length; i++) {
-            if(books[i] == null){
-                books[i] = book;
-                break;
-            }
-        }    
+    public void addBookToArray(Book book, List<Book> listBooks) {
+       listBooks.add(book);
     }
 
-    public boolean printListBooks(Book[] books) {
-        if(books == null || books.length < 1){
+    public boolean printListBooks(List<Book> listBooks) {
+        if(listBooks == null || listBooks.size() < 1){
             System.out.println("Книг нет!");
             return false;
         }
         int j = 0;
-        for (Book b : books) {
+        for (Book b : listBooks) {
             if(b != null){
                 System.out.println(j+1+". "+b.toString());
                 j++;

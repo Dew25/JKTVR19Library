@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 /**
  *
@@ -19,7 +20,7 @@ import java.io.ObjectOutputStream;
  */
 public class ReadersStorageManager {
 
-    public void saveReadersToFile(Reader[] readers) {
+    public void saveReadersToFile(List<Reader> listReaders) {
         String fileName = "readers";
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
@@ -27,7 +28,7 @@ public class ReadersStorageManager {
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(readers);
+            oos.writeObject(listReaders);
             oos.flush();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла");
@@ -35,16 +36,15 @@ public class ReadersStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public Reader[] loadReadersFromFile() {
-        //Reader[] readers = new Reader[10];
-        Reader[] readers = null;
+    public List<Reader> loadReadersFromFile() {
+        List<Reader> listReaders = null;
         String fileName = "readers";
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (Reader[]) ois.readObject();
+            return (List<Reader>) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла"); 
         } catch (IOException ex){
@@ -52,7 +52,7 @@ public class ReadersStorageManager {
         } catch (ClassNotFoundException ex) {
             System.out.println("Нет такого класса");
         }
-        return readers;
+        return listReaders;
     }
     
 }

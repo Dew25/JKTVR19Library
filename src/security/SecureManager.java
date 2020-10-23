@@ -7,6 +7,7 @@ package security;
 
 import entity.Reader;
 import entity.User;
+import java.util.List;
 import java.util.Scanner;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserManager;
@@ -26,7 +27,7 @@ private ReadersStorageManager readersStorageManager = new ReadersStorageManager(
 
 public static enum role {READER,MANAGER};
 
-    public User checkInLogin(User[] users, Reader[] readers) {
+    public User checkInLogin(List<User> listUsers, List<Reader> listReaders) {
         do{
             System.out.println("Ваш выбор: ");
             System.out.println("0. Закрыть программу");
@@ -41,13 +42,13 @@ public static enum role {READER,MANAGER};
                     break;
                 case "1":
                     User user = userManager.createUser();
-                    userManager.addUserToArray(user, users);
-                    readerManager.addReaderToArray(user.getReader(), readers);
-                    readersStorageManager.saveReadersToFile(readers);
-                    usersStorageManager.saveUsersToFile(users);
+                    userManager.addUserToArray(user, listUsers);
+                    readerManager.addReaderToArray(user.getReader(), listReaders);
+                    readersStorageManager.saveReadersToFile(listReaders);
+                    usersStorageManager.saveUsersToFile(listUsers);
                     break;
                 case "2":
-                    User checkInUser = userManager.getCheckInUser(users);
+                    User checkInUser = userManager.getCheckInUser(listUsers);
                     if(checkInUser == null) break;
                     return checkInUser;
                 default:
