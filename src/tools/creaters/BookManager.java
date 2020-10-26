@@ -8,6 +8,9 @@ package tools.creaters;
 import entity.Book;
 import java.util.List;
 import java.util.Scanner;
+import jktvr19library.App;
+import tools.savers.StorageManager;
+
 
 /**
  *
@@ -40,6 +43,9 @@ public class BookManager {
 
     public void addBookToArray(Book book, List<Book> listBooks) {
        listBooks.add(book);
+       StorageManager storageManager = new StorageManager();
+       storageManager.save(listBooks,App.storageFile.BOOKS.toString());
+       
     }
 
     public boolean printListBooks(List<Book> listBooks) {

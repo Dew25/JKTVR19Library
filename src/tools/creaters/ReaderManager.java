@@ -8,15 +8,16 @@ package tools.creaters;
 import entity.Reader;
 import java.util.List;
 import java.util.Scanner;
+import jktvr19library.App;
+import tools.savers.StorageManager;
 
-import tools.savers.ReadersStorageManager;
 
 /**
  *
  * @author Melnikov
  */
 public class ReaderManager {
-private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
+private StorageManager storageManager = new StorageManager();
     public Reader createReader() {
         Reader reader = new Reader();
         System.out.println("--- Зарегистрировать читателя ---");
@@ -32,7 +33,7 @@ private ReadersStorageManager readersStorageManager = new ReadersStorageManager(
 
     public void addReaderToArray(Reader reader, List<Reader> listReaders) {
         listReaders.add(reader);
-        readersStorageManager.saveReadersToFile(listReaders);
+        storageManager.save(listReaders,App.storageFile.READERS.toString());
     }
 
     public void printListReaders(List<Reader> listReaders) {

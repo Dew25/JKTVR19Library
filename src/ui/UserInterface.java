@@ -14,10 +14,9 @@ import java.util.Scanner;
 import tools.creaters.BookManager;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserCardManager;
-import tools.savers.BooksStorageManager;
-import tools.savers.HistoriesStorageManager;
-import tools.savers.ReadersStorageManager;
-import tools.savers.UsersStorageManager;
+
+import tools.savers.StorageManager;
+
 
 /**
  *
@@ -29,10 +28,6 @@ public class UserInterface {
     private ReaderManager readerManager = new ReaderManager(); 
     private UserCardManager userCardManager = new UserCardManager();
     
-    private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
-    private BooksStorageManager booksStorageManager = new BooksStorageManager();
-    private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
-    private UsersStorageManager usersStorageManager = new UsersStorageManager();
     public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories){
         boolean repeat = true;
         do{

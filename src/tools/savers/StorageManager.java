@@ -5,7 +5,7 @@
  */
 package tools.savers;
 
-import entity.Book;
+import entity.History;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,16 +19,15 @@ import java.util.List;
  *
  * @author Melnikov
  */
-public class BooksStorageManager {
+public class StorageManager {
 
-    public void saveBooksToFile(Book[] books) {
-        String fileName = "books";
+    public void save(List arrayList, String fileName) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(books);
+            oos.writeObject(arrayList);
             oos.flush();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла");
@@ -36,15 +35,14 @@ public class BooksStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public List<Book> loadBooksFromFile() {
-        List<Book> listBooks = null;
-        String fileName = "books";
+    public List load(String fileName) {
+        List arrayList = null;
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (List<Book>) ois.readObject();
+            return (List) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла"); 
         } catch (IOException ex){
@@ -52,7 +50,7 @@ public class BooksStorageManager {
         } catch (ClassNotFoundException ex) {
             System.out.println("Нет такого класса");
         }
-        return listBooks;
+        return arrayList;
     }
     
 }
