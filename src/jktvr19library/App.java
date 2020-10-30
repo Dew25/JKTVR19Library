@@ -51,6 +51,7 @@ public class App {
             listUsers = loaderUser;
         }
     }
+    
     public void run() {
         System.out.println("--- Библиотека ---");
         SecureManager secureManager = new SecureManager();
