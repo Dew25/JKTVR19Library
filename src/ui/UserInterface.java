@@ -15,7 +15,8 @@ import tools.creaters.BookManager;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserCardManager;
 
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 
 /**
@@ -28,7 +29,7 @@ public class UserInterface {
     private ReaderManager readerManager = new ReaderManager(); 
     private UserCardManager userCardManager = new UserCardManager();
     
-    public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories){
+    public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface srotareManager){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -52,7 +53,7 @@ public class UserInterface {
                 case "1":
                     System.out.println("--- Добавить книгу ---");
                     Book book = bookManager.createBook();
-                    bookManager.addBookToArray(book,listBooks);
+                    bookManager.addBookToArray(book,listBooks, srotareManager);
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");

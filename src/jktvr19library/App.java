@@ -12,8 +12,10 @@ import entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import security.SecureManager;
+import tools.savers.DBManager;
 
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 import ui.UserInterface;
 
@@ -29,7 +31,8 @@ public class App {
     private List<History> listHistories = new ArrayList<>();
     private List<User> listUsers = new ArrayList<>();
     
-    private StorageManager storageManager = new StorageManager();
+    //private StorageManagerInterface storageManager = new FileManager();
+    private StorageManagerInterface storageManager = new DBManager();
     
     public static User loggedInUser;
     
@@ -60,7 +63,7 @@ public class App {
         
         if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
             //публикуем интерфейс менеджера
-            userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories);
+            userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories, storageManager);
         }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
             //публикуем интерфейс читателя
             userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories);

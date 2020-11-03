@@ -5,7 +5,6 @@
  */
 package tools.savers;
 
-import entity.History;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,8 +18,9 @@ import java.util.List;
  *
  * @author Melnikov
  */
-public class StorageManager {
+public class FileManager implements StorageManagerInterface{
 
+    @Override
     public void save(List arrayList, String fileName) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
@@ -35,6 +35,7 @@ public class StorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
+    @Override
     public List load(String fileName) {
         List arrayList = null;
         FileInputStream fis = null;

@@ -9,7 +9,7 @@ import entity.Reader;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
 
 
 /**
@@ -17,7 +17,7 @@ import tools.savers.StorageManager;
  * @author Melnikov
  */
 public class ReaderManager {
-private StorageManager storageManager = new StorageManager();
+private FileManager storageManager = new FileManager();
     public Reader createReader() {
         Reader reader = new Reader();
         System.out.println("--- Зарегистрировать читателя ---");

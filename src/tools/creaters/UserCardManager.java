@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
 import security.SecureManager;
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
 
 /**
  *
@@ -24,7 +24,7 @@ public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
-    private StorageManager storageManager = new StorageManager();
+    private FileManager storageManager = new FileManager();
 
     public void checkOutBook(List<Book> listBooks, List<Reader> listReaders,List<History> listHistories) {
         System.out.println("--- Список книг ---");
