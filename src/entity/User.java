@@ -7,15 +7,25 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Melnikov
  */
+@Entity
 public class User implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String login;
     private String password;
-    private String role;
+    private String roleName;
+    @OneToOne
     private Reader reader;
 
     public User() {
@@ -24,16 +34,16 @@ public class User implements Serializable{
     public User(String login, String password, String role, Reader reader) {
         this.login = login;
         this.password = password;
-        this.role = role;
+        this.roleName = role;
         this.reader = reader;
     }
 
-    public String getRole() {
-        return role;
+    public Long getId() {
+        return id;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -52,6 +62,14 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     public Reader getReader() {
         return reader;
     }
@@ -61,23 +79,13 @@ public class User implements Serializable{
     }
 
     @Override
-    public String toString() {
-        return "User{" 
-                + "login=" + login 
-                + ", password=" + password 
-                + ", role=" + role 
-                + ", reader=" + reader.getFirstname()
-                + " " + reader.getLastname()
-                + '}';
-    }
-
-    @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 19 * hash + Objects.hashCode(this.login);
-        hash = 19 * hash + Objects.hashCode(this.password);
-        hash = 19 * hash + Objects.hashCode(this.role);
-        hash = 19 * hash + Objects.hashCode(this.reader);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.login);
+        hash = 97 * hash + Objects.hashCode(this.password);
+        hash = 97 * hash + Objects.hashCode(this.roleName);
+        hash = 97 * hash + Objects.hashCode(this.reader);
         return hash;
     }
 
@@ -99,7 +107,10 @@ public class User implements Serializable{
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
-        if (!Objects.equals(this.role, other.role)) {
+        if (!Objects.equals(this.roleName, other.roleName)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.reader, other.reader)) {
@@ -108,6 +119,20 @@ public class User implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("User{id=").append(id);
+        sb.append(", login=").append(login);
+        sb.append(", password=").append(password);
+        sb.append(", roleName=").append(roleName);
+        sb.append(", reader=").append(reader.getFirstname());
+        sb.append(" ").append(reader.getLastname());
+        sb.append('}');
+        return sb.toString();
+    }
+
+  
     
         
 

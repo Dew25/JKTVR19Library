@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
 import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 
 /**
@@ -17,7 +18,7 @@ import tools.savers.FileManager;
  * @author Melnikov
  */
 public class ReaderManager {
-private FileManager storageManager = new FileManager();
+
     public Reader createReader() {
         Reader reader = new Reader();
         System.out.println("--- Зарегистрировать читателя ---");
@@ -33,7 +34,7 @@ private FileManager storageManager = new FileManager();
 
     public void addReaderToArray(Reader reader, List<Reader> listReaders) {
         listReaders.add(reader);
-        storageManager.save(listReaders,App.storageFile.READERS.toString());
+        
     }
 
     public void printListReaders(List<Reader> listReaders) {

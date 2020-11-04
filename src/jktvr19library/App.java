@@ -14,7 +14,6 @@ import java.util.List;
 import security.SecureManager;
 import tools.savers.DBManager;
 
-import tools.savers.FileManager;
 import tools.savers.StorageManagerInterface;
 
 import ui.UserInterface;
@@ -58,15 +57,15 @@ public class App {
     public void run() {
         System.out.println("--- Библиотека ---");
         SecureManager secureManager = new SecureManager();
-        App.loggedInUser = secureManager.checkInLogin(listUsers,listReaders);
+        App.loggedInUser = secureManager.checkInLogin(listUsers,listReaders, storageManager);
         UserInterface userInterface = new UserInterface();
         
-        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
+        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRoleName())){
             //публикуем интерфейс менеджера
             userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories, storageManager);
-        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
+        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRoleName())){
             //публикуем интерфейс читателя
-            userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories);
+            userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories,storageManager);
         }
     }
 

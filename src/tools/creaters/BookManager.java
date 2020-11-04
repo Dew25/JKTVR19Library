@@ -9,8 +9,6 @@ import entity.Book;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
-import tools.savers.DBManager;
-import tools.savers.FileManager;
 import tools.savers.StorageManagerInterface;
 
 
@@ -49,10 +47,9 @@ public class BookManager {
        
     }
 
-    public boolean printListBooks(List<Book> listBooks) {
+    public void printListBooks(List<Book> listBooks) {
         if(listBooks == null || listBooks.size() < 1){
             System.out.println("Книг нет!");
-            return false;
         }
         int j = 0;
         for (Book b : listBooks) {
@@ -61,7 +58,6 @@ public class BookManager {
                 j++;
             }
         }
-        return true;
     }
     
 }

@@ -5,12 +5,13 @@
  */
 package tools.creaters;
 
-import entity.Book;
 import entity.Reader;
 import entity.User;
 import java.util.List;
 import java.util.Scanner;
+import jktvr19library.App;
 import security.SecureManager;
+import tools.savers.StorageManagerInterface;
 
 /**
  *
@@ -19,9 +20,11 @@ import security.SecureManager;
 public class UserManager {
     private Scanner scanner = new Scanner(System.in);
 
-    public User createUser() {
+    public void createUser(List<User> listUsers,List<Reader>listReaders,StorageManagerInterface storageManager) {
         ReaderManager readerManager = new ReaderManager();
         Reader reader = readerManager.createReader();
+        listReaders.add(reader);
+        storageManager.save(listReaders, App.storageFile.READERS.toString());
         User user = new User();
         System.out.println("--- Добавить пользователя ---");
         System.out.println("Логин пользователя:");
@@ -46,9 +49,11 @@ public class UserManager {
                 System.out.println("Введите цифру.");
             }
         }while(true);
-        user.setRole(SecureManager.role.values()[numRole-1].toString());
+        user.setRoleName(SecureManager.role.values()[numRole-1].toString());
         user.setReader(reader);
-        return user;
+        listUsers.add(user);
+        storageManager.save(listUsers, App.storageFile.USERS.toString());
+       
     }
 
     public void addUserToArray(User user, List<User> listUsers) {

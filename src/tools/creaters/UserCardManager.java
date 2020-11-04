@@ -15,6 +15,7 @@ import java.util.Scanner;
 import jktvr19library.App;
 import security.SecureManager;
 import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 /**
  *
@@ -24,15 +25,17 @@ public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
-    private FileManager storageManager = new FileManager();
+    
 
-    public void checkOutBook(List<Book> listBooks, List<Reader> listReaders,List<History> listHistories) {
+    public History checkOutBook(List<Book> listBooks, List<Reader> listReaders) {
         System.out.println("--- Список книг ---");
         int bookNumber;
         do{
-            if(!bookManager.printListBooks(listBooks)){
-                return;
-            };
+            if(listBooks == null || listBooks.size() < 1){
+                System.out.println("Книг нет!");
+                return null;
+            }
+            bookManager.printListBooks(listBooks);
             System.out.print("Выберите номер книги: ");    
             String bookNumberStr = scanner.nextLine();
             try {
@@ -47,7 +50,7 @@ public class UserCardManager {
         }while(true);
         Book book = listBooks.get(bookNumber - 1);
         Reader reader = null;
-        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
+        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRoleName())){
             int readerNumber;
             do{
                 System.out.println("--- Список читателей ---");
@@ -65,13 +68,12 @@ public class UserCardManager {
                 }
             }while(true);
             reader = listReaders.get(readerNumber - 1);
-        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
+        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRoleName())){
             reader = App.loggedInUser.getReader();
         }
         Calendar calendar = new GregorianCalendar();
         History history = new History(book, reader, calendar.getTime(), null);
-        this.addHistoryToArray(history, listHistories);
-       
+        return history;
     }
 
     public void returnBook(List<History> listHistories) {
@@ -92,18 +94,15 @@ public class UserCardManager {
                 }
             }while(true);
             listHistories.get(historyNumber - 1).setReturnDate(new GregorianCalendar().getTime());
-            storageManager.save(listHistories,App.storageFile.HISTORIES.toString());
+           
         }
     }
 
-    public void addHistoryToArray(History history, List<History> listHistories) {
-        listHistories.add(history);
-        storageManager.save(listHistories,App.storageFile.HISTORIES.toString());
-    }
+   
 
     public boolean printListReadBooks(List<History> listHistories) {
         boolean notReadBooks = true;
-        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
+        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRoleName())){
                 for (int i = 0;i<listHistories.size();i++) {
                     if(listHistories.get(i) != null && listHistories.get(i).getReturnDate() == null){
                         System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
@@ -121,7 +120,7 @@ public class UserCardManager {
                 }
             
             
-        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
+        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRoleName())){
                 for (int i = 0;i<listHistories.size();i++) {
                     if(listHistories.get(i) != null 
                          && listHistories.get(i).getReturnDate() == null
@@ -142,5 +141,9 @@ public class UserCardManager {
             
         }
         return true;
+    }
+
+    public void addHistoryToArray(History history, List<History> listHistories) {
+        listHistories.add(history);
     }
 }

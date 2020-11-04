@@ -11,11 +11,11 @@ import entity.Reader;
 import entity.User;
 import java.util.List;
 import java.util.Scanner;
+import jktvr19library.App;
 import tools.creaters.BookManager;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserCardManager;
 
-import tools.savers.FileManager;
 import tools.savers.StorageManagerInterface;
 
 
@@ -29,7 +29,7 @@ public class UserInterface {
     private ReaderManager readerManager = new ReaderManager(); 
     private UserCardManager userCardManager = new UserCardManager();
     
-    public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface srotareManager){
+    public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface storageManager){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -53,7 +53,7 @@ public class UserInterface {
                 case "1":
                     System.out.println("--- Добавить книгу ---");
                     Book book = bookManager.createBook();
-                    bookManager.addBookToArray(book,listBooks, srotareManager);
+                    bookManager.addBookToArray(book,listBooks, storageManager);
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");
@@ -70,7 +70,9 @@ public class UserInterface {
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
-                    userCardManager.checkOutBook(listBooks, listReaders, listHistories);
+                    History history = userCardManager.checkOutBook(listBooks, listReaders);
+                    userCardManager.addHistoryToArray(history, listHistories);
+                    storageManager.save(listHistories, App.storageFile.HISTORIES.toString());
                     break;
                 case "6":
                     System.out.println("--- Вернуть книгу ---");
@@ -85,7 +87,7 @@ public class UserInterface {
             }
         }while(repeat);
     }
-    public void printReaderUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories){
+    public void printReaderUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface storageManager){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -109,11 +111,14 @@ public class UserInterface {
                     break;
                 case "2":
                     System.out.println("--- Взять книгу ---");
-                    userCardManager.checkOutBook(listBooks, listReaders, listHistories);
+                    History history = userCardManager.checkOutBook(listBooks, listReaders);
+                    userCardManager.addHistoryToArray(history, listHistories);
+                    storageManager.save(listHistories, App.storageFile.HISTORIES.toString());
                     break;
                 case "3":
                     System.out.println("--- Вернуть книгу ---");
                     userCardManager.returnBook(listHistories);
+                    storageManager.save(listHistories, App.storageFile.HISTORIES.toString());
                     break;
                 case "4":  
                     System.out.println("--- Список читаемых книг ---");
