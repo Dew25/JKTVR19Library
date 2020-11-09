@@ -19,8 +19,9 @@ import java.util.List;
  *
  * @author Melnikov
  */
-public class StorageManager {
+public class FileManager implements StrorageManagerInterface{
 
+    @Override
     public void save(List arrayList, String fileName) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
@@ -35,6 +36,7 @@ public class StorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
+    @Override
     public List load(String fileName) {
         List arrayList = null;
         FileInputStream fis = null;

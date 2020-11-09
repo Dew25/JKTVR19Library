@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import security.SecureManager;
 
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
 
 import ui.UserInterface;
 
@@ -29,7 +29,7 @@ public class App {
     private List<History> listHistories = new ArrayList<>();
     private List<User> listUsers = new ArrayList<>();
     
-    private StorageManager storageManager = new StorageManager();
+    private FileManager storageManager = new FileManager();
     
     public static User loggedInUser;
     

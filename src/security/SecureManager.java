@@ -12,7 +12,7 @@ import java.util.Scanner;
 import jktvr19library.App;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserManager;
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
 
 /**
  *
@@ -22,7 +22,7 @@ public class SecureManager {
 private Scanner scanner = new Scanner(System.in);
 private UserManager userManager = new UserManager();
 private ReaderManager readerManager = new ReaderManager();
-private StorageManager storageManager = new StorageManager();
+private FileManager storageManager = new FileManager();
 
 public static enum role {READER, MANAGER};
 
