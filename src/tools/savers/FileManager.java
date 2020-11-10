@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Melnikov
  */
-public class FileManager implements StrorageManagerInterface{
+public class FileManager implements StorageManagerInterface{
 
     @Override
     public void save(List arrayList, String fileName) {

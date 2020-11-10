@@ -13,6 +13,7 @@ import jktvr19library.App;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserManager;
 import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 /**
  *
@@ -22,11 +23,11 @@ public class SecureManager {
 private Scanner scanner = new Scanner(System.in);
 private UserManager userManager = new UserManager();
 private ReaderManager readerManager = new ReaderManager();
-private FileManager storageManager = new FileManager();
+//private FileManager storageManager = new FileManager();
 
 public static enum role {READER, MANAGER};
 
-    public User checkInLogin(List<User> listUsers, List<Reader> listReaders) {
+    public User checkInLogin(List<User> listUsers, List<Reader> listReaders, StorageManagerInterface storageManager) {
         do{
             System.out.println("Ваш выбор: ");
             System.out.println("0. Закрыть программу");

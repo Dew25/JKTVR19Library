@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Melnikov
  */
-public interface StrorageManagerInterface {
+public interface StorageManagerInterface {
     public void save(List arrayList, String fileName);
     public List load(String fileName);
 }

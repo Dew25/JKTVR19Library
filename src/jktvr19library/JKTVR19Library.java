@@ -26,8 +26,11 @@ public class JKTVR19Library {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        App app = new App();
+        String flag = "base";
+        if(args.length > 0){
+            flag = args[0];
+        }
+        App app = new App(flag);
         app.run();
     }
     

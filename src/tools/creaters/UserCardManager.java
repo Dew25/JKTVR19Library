@@ -15,6 +15,7 @@ import java.util.Scanner;
 import jktvr19library.App;
 import security.SecureManager;
 import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 /**
  *
@@ -24,9 +25,9 @@ public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
-    private FileManager storageManager = new FileManager();
+//    private FileManager storageManager = new FileManager();
 
-    public void checkOutBook(List<Book> listBooks, List<Reader> listReaders,List<History> listHistories) {
+    public void checkOutBook(List<Book> listBooks, List<Reader> listReaders,List<History> listHistories, StorageManagerInterface storageManager) {
         System.out.println("--- Список книг ---");
         int bookNumber;
         do{
@@ -70,11 +71,11 @@ public class UserCardManager {
         }
         Calendar calendar = new GregorianCalendar();
         History history = new History(book, reader, calendar.getTime(), null);
-        this.addHistoryToArray(history, listHistories);
+        this.addHistoryToArray(history, listHistories, storageManager);
        
     }
 
-    public void returnBook(List<History> listHistories) {
+    public void returnBook(List<History> listHistories, StorageManagerInterface storageManager) {
         System.out.println("Читаемые книги:");
         if(this.printListReadBooks(listHistories)){
             int historyNumber;
@@ -96,7 +97,7 @@ public class UserCardManager {
         }
     }
 
-    public void addHistoryToArray(History history, List<History> listHistories) {
+    public void addHistoryToArray(History history, List<History> listHistories, StorageManagerInterface storageManager) {
         listHistories.add(history);
         storageManager.save(listHistories,App.storageFile.HISTORIES.toString());
     }
