@@ -9,6 +9,7 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import entity.User;
+import entity.controllers.BookController;
 import java.util.List;
 import java.util.Scanner;
 import tools.creaters.BookManager;
@@ -29,7 +30,7 @@ public class UserInterface {
     private ReaderManager readerManager = new ReaderManager(); 
     private UserCardManager userCardManager = new UserCardManager();
     
-    public void printManagerUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface storageManager){
+    public void printManagerUI(){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -53,11 +54,12 @@ public class UserInterface {
                 case "1":
                     System.out.println("--- Добавить книгу ---");
                     Book book = bookManager.createBook();
-                    bookManager.addBookToArray(book,listBooks, storageManager);
+                    BookController bc = new BookController();
+                    bc.create(book);
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");
-                    bookManager.printListBooks(listBooks);
+                    bookManager.printListBooks();
                     break;
                 case "3":
                     System.out.println("--- Добавить читателя ---");

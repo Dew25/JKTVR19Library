@@ -7,6 +7,7 @@ package security;
 
 import entity.Reader;
 import entity.User;
+import entity.controllers.UserController;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
@@ -26,7 +27,7 @@ private ReaderManager readerManager = new ReaderManager();
 
 public static enum role {READER, MANAGER};
 
-    public User checkInLogin(List<User> listUsers, List<Reader> listReaders, StorageManagerInterface storageManager) {
+    public User checkInLogin() {
         do{
             System.out.println("Ваш выбор: ");
             System.out.println("0. Закрыть программу");
@@ -41,13 +42,11 @@ public static enum role {READER, MANAGER};
                     break;
                 case "1":
                     User user = userManager.createUser();
-                    userManager.addUserToArray(user, listUsers);
-                    readerManager.addReaderToArray(user.getReader(), listReaders);
-                    storageManager.save(listReaders,App.storageFile.READERS.toString());
-                    storageManager.save(listUsers, App.storageFile.USERS.toString());
+                    UserController uc = new UserController();
+                    uc.create(user);
                     break;
                 case "2":
-                    User checkInUser = userManager.getCheckInUser(listUsers);
+                    User checkInUser = userManager.getCheckInUser();
                     if(checkInUser == null) break;
                     return checkInUser;
                 default:

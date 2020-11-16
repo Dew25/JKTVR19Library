@@ -6,6 +6,7 @@
 package tools.creaters;
 
 import entity.Book;
+import entity.controllers.BookController;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
@@ -46,7 +47,9 @@ public class BookManager {
        storageManager.save(listBooks,App.storageFile.BOOKS.toString());
     }
 
-    public boolean printListBooks(List<Book> listBooks) {
+    public boolean printListBooks() {
+        BookController bc = new BookController();
+        List<Book> listBooks = bc.findAll();
         if(listBooks == null || listBooks.size() < 1){
             System.out.println("Книг нет!");
             return false;
