@@ -5,7 +5,6 @@
  */
 package tools.creaters;
 
-import entity.Book;
 import entity.Reader;
 import entity.User;
 import java.util.List;

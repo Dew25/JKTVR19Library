@@ -5,7 +5,6 @@
  */
 package tools.savers;
 
-import entity.History;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
