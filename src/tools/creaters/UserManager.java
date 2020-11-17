@@ -53,21 +53,7 @@ public class UserManager {
         user.setReader(reader);
         return user;
     }
-
-    public void addUserToArray(User user, List<User> listUsers) {
-        listUsers.add(user);
-    }
-
-    public void printListUsers(List<User> listUsers) {
-        int j = 0;
-        for (User u : listUsers) {
-            if(u != null){
-                System.out.println(j+1+". "+u.toString());
-                j++;
-            }
-        }
-    }
-
+  
     public User getCheckInUser() {
         System.out.println("--- Вход в систему ---");
         System.out.print("Login: ");

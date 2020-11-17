@@ -6,9 +6,9 @@
 package tools.creaters;
 
 import entity.Reader;
+import entity.controllers.ReaderController;
 import java.util.List;
 import java.util.Scanner;
-import jktvr19library.App;
 import tools.savers.FileManager;
 
 
@@ -31,17 +31,16 @@ private FileManager storageManager = new FileManager();
         return reader;
     }
 
-    public void addReaderToArray(Reader reader, List<Reader> listReaders) {
-        listReaders.add(reader);
-        storageManager.save(listReaders,App.storageFile.READERS.toString());
-    }
-
-    public void printListReaders(List<Reader> listReaders) {
-        int n = 0;
+    public void printListReaders() {
+        ReaderController rc = new ReaderController();
+        List<Reader> listReaders = rc.findAll();
+        if(listReaders == null){
+            System.out.println("Нет читателей");
+            return;
+        }
         for (Reader r : listReaders) {
             if(r != null){
-                System.out.println(n+1+". "+r.toString());
-                n++;
+                System.out.println(r.getId()+". "+r.toString());
             }
         }
     }

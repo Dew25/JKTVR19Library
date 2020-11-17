@@ -6,7 +6,6 @@
 package entity.controllers;
 
 import entity.Book;
-import entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,6 +31,16 @@ public class BookController {
         try {
             return em.createQuery("SELECT b FROM Book b")
                     .getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Book find(Long bookId) {
+        try {
+            return (Book) em.createQuery("SELECT b FROM Book b WHERE b.id = :id")
+                    .setParameter("id", bookId)
+                    .getSingleResult();
         } catch (Exception e) {
             return null;
         }

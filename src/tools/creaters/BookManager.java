@@ -41,12 +41,7 @@ public class BookManager {
         book.setPublishedYear(numPublishedYear);
         return book;
     }
-
-    public void addBookToArray(Book book, List<Book> listBooks, StorageManagerInterface storageManager) {
-       listBooks.add(book);
-       storageManager.save(listBooks,App.storageFile.BOOKS.toString());
-    }
-
+    
     public boolean printListBooks() {
         BookController bc = new BookController();
         List<Book> listBooks = bc.findAll();
@@ -54,11 +49,9 @@ public class BookManager {
             System.out.println("Книг нет!");
             return false;
         }
-        int j = 0;
         for (Book b : listBooks) {
             if(b != null){
-                System.out.println(j+1+". "+b.toString());
-                j++;
+                System.out.println(b.getId()+". "+b.toString());
             }
         }
         return true;

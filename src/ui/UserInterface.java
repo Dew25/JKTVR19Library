@@ -10,11 +10,13 @@ import entity.History;
 import entity.Reader;
 import entity.User;
 import entity.controllers.BookController;
+import entity.controllers.UserController;
 import java.util.List;
 import java.util.Scanner;
 import tools.creaters.BookManager;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserCardManager;
+import tools.creaters.UserManager;
 
 import tools.savers.FileManager;
 import tools.savers.StorageManagerInterface;
@@ -63,31 +65,33 @@ public class UserInterface {
                     break;
                 case "3":
                     System.out.println("--- Добавить читателя ---");
-                    Reader reader = readerManager.createReader();
-                    readerManager.addReaderToArray(reader,listReaders);
+                    UserManager userManager = new UserManager();
+                    User user = userManager.createUser();
+                    UserController uc = new UserController();
+                    uc.create(user);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
-                    readerManager.printListReaders(listReaders);
+                    readerManager.printListReaders();
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
-                    userCardManager.checkOutBook(listBooks, listReaders, listHistories,storageManager);
+                    userCardManager.checkOutBook();
                     break;
                 case "6":
                     System.out.println("--- Вернуть книгу ---");
-                    userCardManager.returnBook(listHistories,storageManager);
+                    userCardManager.returnBook();
                     break;
                 case "7":  
                     System.out.println("--- Список читаемых книг ---");
-                    userCardManager.printListReadBooks(listHistories);
+                    userCardManager.printListReadBooks();
                     break;
                 default:
                     System.out.println("Нет такой задачи");;
             }
         }while(repeat);
     }
-    public void printReaderUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface storageManager){
+    public void printReaderUI(){
         boolean repeat = true;
         do{
             System.out.println("=============================");
@@ -107,19 +111,19 @@ public class UserInterface {
                     break;
                 case "1":
                     System.out.println("--- Список книг ---");
-                    bookManager.printListBooks(listBooks);
+                    bookManager.printListBooks();
                     break;
                 case "2":
                     System.out.println("--- Взять книгу ---");
-                    userCardManager.checkOutBook(listBooks, listReaders, listHistories, storageManager);
+                    userCardManager.checkOutBook();
                     break;
                 case "3":
                     System.out.println("--- Вернуть книгу ---");
-                    userCardManager.returnBook(listHistories,storageManager);
+                    userCardManager.returnBook();
                     break;
                 case "4":  
                     System.out.println("--- Список читаемых книг ---");
-                    userCardManager.printListReadBooks(listHistories);
+                    userCardManager.printListReadBooks();
                     break;
                 default:
                     System.out.println("Нет такой задачи");;

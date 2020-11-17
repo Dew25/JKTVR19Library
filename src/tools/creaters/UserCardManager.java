@@ -8,6 +8,9 @@ package tools.creaters;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import entity.controllers.BookController;
+import entity.controllers.HistoryController;
+import entity.controllers.ReaderController;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,120 +30,103 @@ public class UserCardManager {
     private ReaderManager readerManager = new ReaderManager();
 //    private FileManager storageManager = new FileManager();
 
-    public void checkOutBook(List<Book> listBooks, List<Reader> listReaders,List<History> listHistories, StorageManagerInterface storageManager) {
+    public void checkOutBook() {
         System.out.println("--- Список книг ---");
-        int bookNumber;
+        Long bookNumber;
         do{
-            if(!bookManager.printListBooks(listBooks)){
+            if(!bookManager.printListBooks()){
                 return;
             };
             System.out.print("Выберите номер книги: ");    
             String bookNumberStr = scanner.nextLine();
             try {
-                bookNumber = Integer.parseInt(bookNumberStr);
-                if(bookNumber < 1 && bookNumber >= listBooks.size()){
-                    throw new Exception("Выход за диапазон массива книг");
-                }
+                bookNumber = Long.parseLong(bookNumberStr);
                 break;
             } catch (Exception e) {
-                System.out.println("Выберите номер из указанного выше списка книг");
+                System.out.println("Выберите номер из списка.");
             }
         }while(true);
-        Book book = listBooks.get(bookNumber - 1);
+        BookController bc = new BookController();
+        Book book = bc.find(bookNumber);
         Reader reader = null;
         if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
-            int readerNumber;
+            Long readerNumber;
             do{
                 System.out.println("--- Список читателей ---");
-                readerManager.printListReaders(listReaders);
+                readerManager.printListReaders();
                 System.out.print("Выберите номер читателя: ");    
                 String readerNumberStr = scanner.nextLine();
                 try {
-                    readerNumber = Integer.parseInt(readerNumberStr);
-                    if(readerNumber < 1 && readerNumber >= listReaders.size()){
-                        throw new Exception();
-                    }
+                    readerNumber = Long.parseLong(readerNumberStr);
                     break;
                 } catch (Exception e) {
                     System.out.println("Выберите номер из указанного списка");
                 }
             }while(true);
-            reader = listReaders.get(readerNumber - 1);
+            ReaderController rc = new ReaderController();
+            reader = rc.find(readerNumber);
         }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
             reader = App.loggedInUser.getReader();
         }
         Calendar calendar = new GregorianCalendar();
         History history = new History(book, reader, calendar.getTime(), null);
-        this.addHistoryToArray(history, listHistories, storageManager);
-       
+        HistoryController hc = new HistoryController();
+        hc.create(history);
     }
 
-    public void returnBook(List<History> listHistories, StorageManagerInterface storageManager) {
+    public void returnBook() {
         System.out.println("Читаемые книги:");
-        if(this.printListReadBooks(listHistories)){
-            int historyNumber;
+        if(this.printListReadBooks()){
+            Long historyNumber;
             do{    
                System.out.println("Выберите номер возвращаемой книги: ");
                 String historyNumberStr = scanner.nextLine();
                 try {
-                    historyNumber = Integer.parseInt(historyNumberStr);
-                    if(historyNumber < 1 && historyNumber >= listHistories.size()){
-                        throw new Exception("Выход за диапазон массива");
-                    }
+                    historyNumber = Long.parseLong(historyNumberStr);
                     break;
                 } catch (Exception e) {
                     System.out.println("Выберите номер из указанного выше списка");
                 }
             }while(true);
-            listHistories.get(historyNumber - 1).setReturnDate(new GregorianCalendar().getTime());
-            storageManager.save(listHistories,App.storageFile.HISTORIES.toString());
+            HistoryController hc = new HistoryController();
+            History history = hc.find(historyNumber);
+            history.setReturnDate(new GregorianCalendar().getTime());
+            hc.edit(history);
         }
     }
 
-    public void addHistoryToArray(History history, List<History> listHistories, StorageManagerInterface storageManager) {
-        listHistories.add(history);
-        storageManager.save(listHistories,App.storageFile.HISTORIES.toString());
-    }
+   
 
-    public boolean printListReadBooks(List<History> listHistories) {
-        boolean notReadBooks = true;
+    public boolean printListReadBooks() {
+        HistoryController hc = new HistoryController();
         if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
-                for (int i = 0;i<listHistories.size();i++) {
-                    if(listHistories.get(i) != null && listHistories.get(i).getReturnDate() == null){
-                        System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
-                                ,i+1
-                                ,listHistories.get(i).getBook().getName()
-                                ,listHistories.get(i).getReader().getFirstname()
-                                ,listHistories.get(i).getReader().getLastname()
-                        );
-                        notReadBooks = false;
-                    }
-                }
-                if(notReadBooks){
-                    System.out.println("Читаемых книг нет");
-                    return false;
-                }
-            
-            
+            List<History> listHistories = hc.findAll(true);
+            if(listHistories == null){
+                System.out.println("Читаемых книг нет");
+                return false;
+            }
+            for (int i = 0;i<listHistories.size();i++) {
+                System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
+                        ,listHistories.get(i).getId()
+                        ,listHistories.get(i).getBook().getName()
+                        ,listHistories.get(i).getReader().getFirstname()
+                        ,listHistories.get(i).getReader().getLastname()
+                );
+            }
         }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
-                for (int i = 0;i<listHistories.size();i++) {
-                    if(listHistories.get(i) != null 
-                         && listHistories.get(i).getReturnDate() == null
-                            && listHistories.get(i).getReader().equals(App.loggedInUser.getReader())){
-                        System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
-                                ,i+1
-                                ,listHistories.get(i).getBook().getName()
-                                ,listHistories.get(i).getReader().getFirstname()
-                                ,listHistories.get(i).getReader().getLastname()
-                        );
-                        notReadBooks = false;
-                    }
-                }
-                if(notReadBooks){
-                    System.out.println("Читаемых книг нет");
-                    return false;
-                }
-            
+            List<History> listHistories = hc.findAll(App.loggedInUser.getReader());
+            if(listHistories == null){
+                System.out.println("Читаемых книг нет");
+                return false;
+            }
+            for (int i = 0;i<listHistories.size();i++) {
+                System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
+                        ,listHistories.get(i).getId()
+                        ,listHistories.get(i).getBook().getName()
+                        ,listHistories.get(i).getReader().getFirstname()
+                        ,listHistories.get(i).getReader().getLastname()
+                );
+            }
         }
         return true;
     }

@@ -5,15 +5,11 @@
  */
 package security;
 
-import entity.Reader;
 import entity.User;
 import entity.controllers.UserController;
-import java.util.List;
 import java.util.Scanner;
-import jktvr19library.App;
 import tools.creaters.ReaderManager;
 import tools.creaters.UserManager;
-import tools.savers.StorageManagerInterface;
 
 /**
  *
