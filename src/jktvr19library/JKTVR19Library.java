@@ -20,6 +20,10 @@
  */
 package jktvr19library;
 
+import factory.ConnectSingleton;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 /**
  *
  * @author Melnikov
@@ -35,7 +39,20 @@ public class JKTVR19Library {
             flag = args[0];
         }
         App app = new App(flag);
-        app.run();
+        try{
+            app.run();
+        } finally {
+            ConnectSingleton connect = ConnectSingleton.getInstance();
+            EntityManager em = connect.getEntityManager();
+            EntityManagerFactory emf = connect.getEntityManagerFactory();
+            if(em != null) {
+                em.close();
+            }
+            if(emf != null){
+                emf.close();
+            }
+            
+        }
     }
     
 }

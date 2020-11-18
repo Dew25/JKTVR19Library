@@ -7,6 +7,7 @@ package tools.creaters;
 
 import entity.Reader;
 import entity.facade.ReaderFacade;
+import factory.FacadeFactory;
 import java.util.List;
 import java.util.Scanner;
 import tools.savers.FileManager;
@@ -18,7 +19,7 @@ import tools.savers.FileManager;
  */
 public class ReaderManager {
     
-    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+    private ReaderFacade readerFacade = FacadeFactory.getReaderFacade();
 
     public Reader createReader() {
         Reader reader = new Reader();

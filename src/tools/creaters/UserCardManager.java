@@ -11,6 +11,7 @@ import entity.Reader;
 import entity.facade.BookFacade;
 import entity.facade.HistoryFacade;
 import entity.facade.ReaderFacade;
+import factory.FacadeFactory;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -26,9 +27,9 @@ public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
-    private BookFacade bookFacade = new BookFacade(Book.class);
-    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
-    private HistoryFacade historyFacade = new HistoryFacade(History.class);
+    private BookFacade bookFacade = FacadeFactory.getBookFacade();
+    private ReaderFacade readerFacade = FacadeFactory.getReaderFacade();
+    private HistoryFacade historyFacade = FacadeFactory.getHistoryFacade();
 
 
     public void checkOutBook() {

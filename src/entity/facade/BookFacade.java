@@ -6,24 +6,22 @@
 package entity.facade;
 
 import entity.Book;
+import factory.ConnectSingleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
  * @author Melnikov
  */
 public class BookFacade extends AbstractFacade<Book>{
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTVR19LibraryPU");
-    private EntityManager em = emf.createEntityManager();
-
-    public BookFacade(Class<Book> entityClass) {
-        super(entityClass);
+    
+    public BookFacade() {
+        super(Book.class);
     }
    
     @Override
     protected EntityManager getEntityManager() {
-        return em;
+        ConnectSingleton connect = ConnectSingleton.getInstance();
+        return connect.getEntityManager();
     }
 }

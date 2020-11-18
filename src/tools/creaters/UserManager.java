@@ -9,6 +9,7 @@ import entity.Reader;
 import entity.User;
 import entity.facade.ReaderFacade;
 import entity.facade.UserFacade;
+import factory.FacadeFactory;
 import java.util.List;
 import java.util.Scanner;
 import security.SecureManager;
@@ -19,8 +20,8 @@ import security.SecureManager;
  */
 public class UserManager {
     private Scanner scanner = new Scanner(System.in);
-    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
-    private UserFacade userFacade = new UserFacade(User.class);
+    private ReaderFacade readerFacade = FacadeFactory.getReaderFacade();
+    private UserFacade userFacade = FacadeFactory.getUserFacade();
 
     public User createUser() {
         ReaderManager readerManager = new ReaderManager();

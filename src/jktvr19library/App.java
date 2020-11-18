@@ -9,8 +9,10 @@ import entity.Reader;
 import entity.Book;
 import entity.History;
 import entity.User;
+import factory.ConnectSingleton;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import security.SecureManager;
 import tools.savers.BaseManager;
 
@@ -65,21 +67,23 @@ public class App {
     }
     
     public void run() {
-        System.out.println("--- Библиотека ---");
-        SecureManager secureManager = new SecureManager();
-        App.loggedInUser = secureManager.checkInLogin();
-        UserInterface userInterface = new UserInterface();
-        if(App.loggedInUser == null){
-            System.out.println("У вас нет прав доступа");
-            return;
-        }
-        if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
-            //публикуем интерфейс менеджера
-            userInterface.printManagerUI();
-        }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
-            //публикуем интерфейс читателя
-            userInterface.printReaderUI();
-        }
+      
+            System.out.println("--- Библиотека ---");
+            SecureManager secureManager = new SecureManager();
+            App.loggedInUser = secureManager.checkInLogin();
+            UserInterface userInterface = new UserInterface();
+            if(App.loggedInUser == null){
+                System.out.println("У вас нет прав доступа");
+                return;
+            }
+            if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
+                //публикуем интерфейс менеджера
+                userInterface.printManagerUI();
+            }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
+                //публикуем интерфейс читателя
+                userInterface.printReaderUI();
+            }
+        
     }
 
 }
