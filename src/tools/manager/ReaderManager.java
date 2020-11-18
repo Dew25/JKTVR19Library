@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools.creaters;
+package tools.manager;
 
 import entity.Reader;
 import entity.facade.ReaderFacade;
 import factory.FacadeFactory;
 import java.util.List;
 import java.util.Scanner;
-import tools.savers.FileManager;
 
 
 /**

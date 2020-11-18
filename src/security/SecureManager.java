@@ -6,11 +6,10 @@
 package security;
 
 import entity.User;
-import entity.facade.UserFacade;
 import factory.FacadeFactory;
 import java.util.Scanner;
-import tools.creaters.ReaderManager;
-import tools.creaters.UserManager;
+import tools.manager.ReaderManager;
+import tools.manager.UserManager;
 
 /**
  *
@@ -39,7 +38,7 @@ public static enum role {READER, MANAGER};
                     break;
                 case "1":
                     User user = userManager.createUser();
-                    new FacadeFactory().getUserFacade().create(user);
+                    FacadeFactory.getUserFacade().create(user);
                     break;
                 case "2":
                     User checkInUser = userManager.getCheckInUser();
