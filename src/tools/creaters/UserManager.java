@@ -7,8 +7,8 @@ package tools.creaters;
 
 import entity.Reader;
 import entity.User;
-import entity.controllers.ReaderController;
-import entity.controllers.UserController;
+import entity.facade.ReaderFacade;
+import entity.facade.UserFacade;
 import java.util.List;
 import java.util.Scanner;
 import security.SecureManager;
@@ -19,12 +19,12 @@ import security.SecureManager;
  */
 public class UserManager {
     private Scanner scanner = new Scanner(System.in);
+    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+    private UserFacade userFacade = new UserFacade(User.class);
 
     public User createUser() {
         ReaderManager readerManager = new ReaderManager();
         Reader reader = readerManager.createReader();
-        ReaderController rc = new ReaderController();
-        rc.create(reader);
         User user = new User();
         System.out.println("--- Добавить пользователя ---");
         System.out.println("Логин пользователя:");
@@ -51,6 +51,7 @@ public class UserManager {
         }while(true);
         user.setRole(SecureManager.role.values()[numRole-1].toString());
         user.setReader(reader);
+        userFacade.create(user);
         return user;
     }
   
@@ -60,8 +61,7 @@ public class UserManager {
         String login = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
-        UserController uc = new UserController();
-        List<User> listUsers = uc.findAll();
+        List<User> listUsers = userFacade.findAll();
         if(listUsers == null){
             System.out.println("У вас нет права входа. Зарегистрируйтесь.");
             return null;

@@ -9,8 +9,8 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import entity.User;
-import entity.controllers.BookController;
-import entity.controllers.UserController;
+import entity.facade.BookFacade;
+import entity.facade.UserFacade;
 import java.util.List;
 import java.util.Scanner;
 import tools.creaters.BookManager;
@@ -56,8 +56,6 @@ public class UserInterface {
                 case "1":
                     System.out.println("--- Добавить книгу ---");
                     Book book = bookManager.createBook();
-                    BookController bc = new BookController();
-                    bc.create(book);
                     break;
                 case "2":
                     System.out.println("--- Список книг ---");
@@ -67,8 +65,6 @@ public class UserInterface {
                     System.out.println("--- Добавить читателя ---");
                     UserManager userManager = new UserManager();
                     User user = userManager.createUser();
-                    UserController uc = new UserController();
-                    uc.create(user);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");

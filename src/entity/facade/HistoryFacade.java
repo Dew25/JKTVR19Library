@@ -3,46 +3,54 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.controllers;
+package entity.facade;
 
-import entity.Book;
+import entity.History;
+import entity.Reader;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
  *
  * @author Melnikov
  */
-public class BookController {
+public class HistoryFacade extends AbstractFacade<History>{
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
-    private EntityTransaction tx = em.getTransaction();
-   
-    public void create(Book book){
-        tx.begin();
-        em.persist(book);
-        tx.commit();
-    }
 
-    public List<Book> findAll() {
+    public HistoryFacade(Class<History> entityClass) {
+        super(entityClass);
+    }
+   
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+  
+    public List<History> findAll(boolean reading) {
         try {
-            return em.createQuery("SELECT b FROM Book b")
+            return em.createQuery("SELECT h FROM History h WHERE h.returnDate = NULL")
                     .getResultList();
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Book find(Long bookId) {
+    public List<History> findAll(Reader reader) {
         try {
-            return (Book) em.createQuery("SELECT b FROM Book b WHERE b.id = :id")
-                    .setParameter("id", bookId)
-                    .getSingleResult();
+            return em.createQuery("SELECT h FROM History h WHERE h.returnDate = NULL AND h.reader=:reader")
+                    .setParameter("reader", reader)
+                    .getResultList();
         } catch (Exception e) {
             return null;
         }
     }
+
+   
+
+   
+
+
 }
