@@ -23,36 +23,87 @@
  */
 package jktvr19library;
 
-import factory.ConnectSingleton;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Melnikov
- */
+import gui.HorizontalMenu;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
 public class JKTVR19Library {
+    
+    public JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.PAGE_AXIS));
+        menuBar.add(createMenu("Читатель"));
+        menuBar.add(createMenu("Менеджер"));
+        menuBar.add(createMenu("Администратор"));
 
+        menuBar.setBorder(BorderFactory.createMatteBorder(0,0,0,1,
+                                                          Color.BLACK));
+        return menuBar;
+    }
+// used by createMenuBar
+    public JMenu createMenu(String title) {
+        JMenu m = new HorizontalMenu(title);
+        m.add("Menu item #1 in " + title);
+        m.add("Menu item #2 in " + title);
+        m.add("Menu item #3 in " + title);
+
+        JMenu submenu = new HorizontalMenu("Submenu");
+        submenu.add("Submenu item #1");
+        submenu.add("Submenu item #2");
+        m.add(submenu);
+
+        return m;
+    }
+    private static void createAndShowGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("MenuLayoutDemo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Create and set up the content pane.
+        JKTVR19Library demo = new JKTVR19Library();
+        Container contentPane = frame.getContentPane();
+        contentPane.setBackground(Color.WHITE); //contrasting bg
+        contentPane.add(demo.createMenuBar(),
+                        BorderLayout.LINE_START);
+
+        //Display the window.
+        frame.setSize(300, 150);
+        frame.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        App app = new App();
-        try{
-            app.run();
-        } finally {
-            ConnectSingleton connect = ConnectSingleton.getInstance();
-            EntityManager em = connect.getEntityManager();
-            EntityManagerFactory emf = connect.getEntityManagerFactory();
-            if(em != null) {
-                em.close();
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
             }
-            if(emf != null){
-                emf.close();
-            }
-            
-        }
+        });
     }
+       // App app = new App();
+       // GuiApp guiApp = new GuiApp();
+//        try{
+       //   app.run();
+            
+//        } finally {
+//            ConnectSingleton connect = ConnectSingleton.getInstance();
+//            EntityManager em = connect.getEntityManager();
+//            EntityManagerFactory emf = connect.getEntityManagerFactory();
+//            if(em != null) {
+//                em.close();
+//            }
+//            if(emf != null){
+//                emf.close();
+//            }
+//            
+//        }
+//    }
     
 }
